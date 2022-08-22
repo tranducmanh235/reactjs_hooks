@@ -62,3 +62,14 @@ input[type="submit"] {
     border: 0;
     display: block;
 }
+
+.toggle-div {
+    text-align: center;
+    padding: 10px;
+}
+
+/* .toggle-theme-btn {
+    cursor: pointer;
+    text-align: center;
+    padding: 10px;
+} */

@@ -1,7 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { ThemeContext } from "../contexts/ThemeContext";
+import { TodoContext } from "../contexts/TodoContext";
 
-const TodoForm = ({ addTodo }) => {
+const TodoForm = () => {
+    // load context
+    const { theme } = useContext(ThemeContext);
+    const { isLightTheme, light, dark } = theme;
+
+    // load context todo
+    const { addTodo } = useContext(TodoContext);
+
     const [title, setTitle] = useState("");
 
     const handleTitleChange = (event) => {
@@ -17,6 +26,9 @@ const TodoForm = ({ addTodo }) => {
         setTitle("");
     };
 
+    // style
+    const style = isLightTheme ? light : dark;
+
     return (
         <div>
             <form onSubmit={handleSubmit}>
@@ -28,7 +40,7 @@ const TodoForm = ({ addTodo }) => {
                     name="title"
                     placeholder="Enter a todo..."
                 />
-                <input type="submit" value="Add" />
+                <input type="submit" value="Add" style={style} />
             </form>
         </div>
     );
