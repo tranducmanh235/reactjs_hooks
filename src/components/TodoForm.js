@@ -1,48 +1,53 @@
 import React, { useState, useContext } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { ThemeContext } from "../contexts/ThemeContext";
 import { TodoContext } from "../contexts/TodoContext";
+import { v4 as uuidv4 } from "uuid";
+import { ADD_TODO } from "../reducers/types";
 
 const TodoForm = () => {
-    // load context
+    // Load context
     const { theme } = useContext(ThemeContext);
     const { isLightTheme, light, dark } = theme;
 
-    // load context todo
-    const { addTodo } = useContext(TodoContext);
+    // Load context todos
+    const { dispatch } = useContext(TodoContext);
 
+    // For this component only
     const [title, setTitle] = useState("");
 
-    const handleTitleChange = (event) => {
+    const onTitleChange = (event) => {
         setTitle(event.target.value);
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        addTodo({
-            id: uuidv4(),
-            title,
+        dispatch({
+            type: ADD_TODO,
+            payload: {
+                todo: {
+                    id: uuidv4(),
+                    title,
+                },
+            },
         });
         setTitle("");
     };
 
-    // style
+    // Style
     const style = isLightTheme ? light : dark;
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input
-                    onChange={handleTitleChange}
-                    value={title}
-                    required
-                    type="text"
-                    name="title"
-                    placeholder="Enter a todo..."
-                />
-                <input type="submit" value="Add" style={style} />
-            </form>
-        </div>
+        <form onSubmit={handleSubmit}>
+            <input
+                type="text"
+                name="title"
+                placeholder="Enter a new todo..."
+                onChange={onTitleChange}
+                value={title}
+                required
+            />
+            <input type="submit" value="Add" style={style} />
+        </form>
     );
 };
 

@@ -1,15 +1,24 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { TodoContext } from "../contexts/TodoContext";
 import { AuthContext } from "../contexts/AuthContext";
 import TodoForm from "./TodoForm";
 import TodoItem from "./TodoItem";
+import { GET_TODOS } from "../reducers/types";
 
 const Todos = () => {
-    // load context
-    const { todos } = useContext(TodoContext);
+    // Load context
+    const { todos, dispatch } = useContext(TodoContext);
 
-    // load auth context
+    // Load auth context
     const { isAuthenticated } = useContext(AuthContext);
+
+    // useEffect
+    useEffect(() => {
+        dispatch({
+            type: GET_TODOS,
+            payload: null,
+        });
+    }, [dispatch]);
 
     return (
         <div className="todo-list">
